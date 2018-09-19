@@ -1,0 +1,47 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="banner_listing_data_source" xsi:type="string">
+                    Aht\BannerSlider\Model\ResourceModel\Banner\Grid\Collection
+                </item>
+                <item name="slide_listing_data_source" xsi:type="string">
+                    Aht\BannerSlider\Model\ResourceModel\Slide\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!--register banner data provider-->
+    <type name="Aht\BannerSlider\Model\ResourceModel\Banner\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">banner</argument>
+            <argument name="eventPrefix" xsi:type="string">banner_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">bn_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aht\BannerSlider\Model\ResourceModel\Banner</argument>
+        </arguments>
+    </type>
+
+    <!--register slide data provider-->
+    <type name="Aht\BannerSlider\Model\ResourceModel\Slide\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">slide</argument>
+            <argument name="eventPrefix" xsi:type="string">slide_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">sl_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aht\BannerSlider\Model\ResourceModel\Slide</argument>
+        </arguments>
+    </type>
+
+    <type name="Aht\BannerSlider\Controller\Adminhtml\Slide\Image\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magento\Catalog\CategoryImageUpload</argument>
+        </arguments>
+    </type>
+
+    <type name="Aht\BannerSlider\Controller\Adminhtml\Slide\Save">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magento\Catalog\CategoryImageUpload</argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">banner_form.banner_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">General Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+
+    <settings>
+        <buttons>
+            <button name="save_and_continue" class="Aht\BannerSlider\Block\Adminhtml\Banner\Edit\SaveAndContinueButton"/>
+            <button name="save" class="Aht\BannerSlider\Block\Adminhtml\Banner\Edit\SaveButton"/>
+            <button name="reset" class="Aht\BannerSlider\Block\Adminhtml\Banner\Edit\ResetButton"/>
+            <button name="delete" class="Aht\BannerSlider\Block\Adminhtml\Banner\Edit\DeleteButton"/>
+            <button name="back" class="Aht\BannerSlider\Block\Adminhtml\Banner\Edit\BackButton"/>
+        </buttons>
+        <namespace>banner_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>banner_form.banner_form_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="banner_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="banner/manage/save"/>
+        </settings>
+        <dataProvider class="Aht\BannerSlider\Model\Banner\DataProvider" name="banner_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <fieldset name="general">
+        <settings>
+            <label/>
+        </settings>
+        <!--<field name="id" formElement="input">-->
+            <!--<argument name="data" xsi:type="array">-->
+                <!--<item name="config" xsi:type="array">-->
+                    <!--<item name="source" xsi:type="string">banner</item>-->
+                    <!--<item name="disabled" xsi:type="boolean">true</item>-->
+                <!--</item>-->
+            <!--</argument>-->
+            <!--<settings>-->
+                <!--<dataType>text</dataType>-->
+                <!--<label translate="true">Banner ID</label>-->
+                <!--&lt;!&ndash;<visible>false</visible>&ndash;&gt;-->
+                <!--<dataScope>id</dataScope>-->
+            <!--</settings>-->
+        <!--</field>-->
+        <field name="name" sortOrder="20" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">banner</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Banner Name</label>
+                <dataScope>name</dataScope>
+            </settings>
+        </field>
+
+        <!--<field name="created_at" sortOrder="30" formElement="input">-->
+            <!--<argument name="data" xsi:type="array">-->
+                <!--<item name="config" xsi:type="array">-->
+                    <!--<item name="source" xsi:type="string">banner</item>-->
+                    <!--<item name="disabled" xsi:type="boolean">true</item>-->
+                <!--</item>-->
+            <!--</argument>-->
+            <!--<settings>-->
+                <!--<dataType>text</dataType>-->
+                <!--<label translate="true">Created Time</label>-->
+                <!--<dataScope>created_at</dataScope>-->
+            <!--</settings>-->
+        <!--</field>-->
+        <!--<field name="updated_at" sortOrder="40" formElement="input">-->
+            <!--<argument name="data" xsi:type="array">-->
+                <!--<item name="config" xsi:type="array">-->
+                    <!--<item name="source" xsi:type="string">banner</item>-->
+                    <!--<item name="disabled" xsi:type="boolean">true</item>-->
+                <!--</item>-->
+            <!--</argument>-->
+            <!--<settings>-->
+                <!--<dataType>text</dataType>-->
+                <!--<label translate="true">Last Update</label>-->
+                <!--<dataScope>updated_at</dataScope>-->
+            <!--</settings>-->
+        <!--</field>-->
+        <container name="banner_page_group" component="Magento_Ui/js/form/components/group" sortOrder="40">
+            <field name="banner_page">
+                <argument name="data" xsi:type="array">
+                    <item name="type" xsi:type="string">group</item>
+                    <item name="config" xsi:type="array">
+                        <item name="breakLine" xsi:type="boolean">true</item>
+                        <item name="required" xsi:type="boolean">true</item>
+                        <item name="formElement" xsi:type="string">multiselect</item>
+                        <item name="label" xsi:type="string">Banner Page</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="options" xsi:type="object">Aht\BannerSlider\Model\Page\PageSource</item>
+                </argument>
+            </field>
+
+            <!--check box "use all"-->
+            <field name="use_config.banner_page" formElement="checkbox">
+                <settings>
+                    <dataType>boolean</dataType>
+                    <exports>
+                        <link name="checked">ns = ${ $.ns }, index = banner_page :disabled</link>
+                    </exports>
+                </settings>
+                <formElements>
+                    <checkbox>
+                        <settings>
+                            <description translate="true">Use All</description>
+                            <valueMap>
+                                <map name="false" xsi:type="boolean">false</map>
+                                <map name="true" xsi:type="boolean">true</map>
+                            </valueMap>
+                        </settings>
+                    </checkbox>
+                </formElements>
+            </field>
+        </container>
+    </fieldset>
+
+    <fieldset name="assign_slides" sortOrder="50">
+        <settings>
+            <collapsible>true</collapsible>
+            <label translate="true">Slides in Banner</label>
+        </settings>
+        <container name="assign_slides_container" sortOrder="160">
+            <htmlContent name="html_content">
+                <block name="gallery" class="Aht\BannerSlider\Block\Adminhtml\Banner\AssignSlide"/>
+            </htmlContent>
+        </container>
+    </fieldset>
+</form>

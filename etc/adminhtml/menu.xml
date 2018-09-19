@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="Aht_BannerSlider::main_menu" title="Banners"
+             module="Aht_BannerSlider" sortOrder="20"
+             resource="Aht_BannerSlider::banners" />
+        <!-- Banner -->
+        <add id="Aht_BannerSlider::add_banners" title="Add Banners"
+             module="Aht_BannerSlider" sortOrder="1" parent="Aht_BannerSlider::main_menu"
+             action="banner/manage/add" resource="Aht_BannerSlider::add_banners" />
+        <add id="Aht_BannerSlider::manage_banners" title="Manage Banners"
+             module="Aht_BannerSlider" sortOrder="2" parent="Aht_BannerSlider::main_menu"
+             action="banner/manage/index" resource="Aht_BannerSlider::manage_banners" />
+
+        <!-- Slide -->
+        <add id="Aht_BannerSlider::add_slides" title="Add Slides"
+             module="Aht_BannerSlider" sortOrder="3" parent="Aht_BannerSlider::main_menu"
+             action="banner/slide/add" resource="Aht_BannerSlider::add_slides" />
+        <add id="Aht_BannerSlider::manage_slides" title="Manage Slides"
+             module="Aht_BannerSlider" sortOrder="4" parent="Aht_BannerSlider::main_menu"
+             action="banner/slide/index" resource="Aht_BannerSlider::manage_slides" />
+    </menu>
+</config>

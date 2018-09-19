@@ -1,0 +1,116 @@
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/* global $, $H */
+
+define([
+    'mage/adminhtml/grid'
+], function () {
+    'use strict';
+
+    return function(config){
+            var selectedSlide = config.selectedSlide,
+            bannerSlide = $H(selectedSlide),
+            gridJsObject = window[config.gridJsObjectName],
+            tabIndex = 1000;
+
+        $('in_banner_slide').value = Object.toJSON(bannerSlide);
+
+        /**
+         * Register Banner Slide
+         *
+         * @param {Object} grid
+         * @param {Object} element
+         * @param {Boolean} checked
+         */
+        function registerBannerSlide(grid, element, checked) {
+            // checked thì set { slide_id => position } VD: { 1=>"1", 2=>"1"}
+            // ngược lại thì unset
+            // sau đó render.
+            if (checked) {
+                if (element.positionElement) {
+                    element.positionElement.disabled = false;
+                    bannerSlide.set(element.value, element.positionElement.value);
+                }
+            } else {
+                if (element.positionElement) {
+                    element.positionElement.disabled = true;
+                }
+                bannerSlide.unset(element.value);
+            }
+            $('in_banner_slide').value = Object.toJSON(bannerSlide);
+            grid.reloadParams = {
+                'selected_slide[]': bannerSlide.keys()
+            };
+        }
+
+        /**
+         * Click on Slide row
+         *
+         * @param {Object} grid
+         * @param {String} event
+         */
+        function bannerSlideRowClick(grid, event) {
+            var trElement = Event.findElement(event, 'tr'),
+                isInput = Event.element(event).tagName === 'INPUT',
+                checked = false,
+                checkbox = null;
+
+            // trElement lấy toàn bộ <tr></tr> của slide.
+            // gồm 2 input, 1 là checkbox, 2 là position
+            if (trElement) {
+                checkbox = Element.getElementsBySelector(trElement, 'input');
+
+                if (checkbox[0]) {
+                    // checked = true thì gán checked[0] = checked, tức là gán input checkbox checked = true.
+                    checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+                    gridJsObject.setCheckboxChecked(checkbox[0], checked);
+                }
+            }
+        }
+
+        /**
+         * Change Slide position
+         *
+         * @param {String} event
+         */
+        function positionChange(event) {
+            var element = Event.element(event);
+
+            if (element && element.checkboxElement && element.checkboxElement.checked) {
+                bannerSlide.set(element.checkboxElement.value, element.value);
+                $('in_banner_slide').value = Object.toJSON(bannerSlide);
+            }
+        }
+
+        /**
+         * Initialize Banner Slide row
+         *
+         * @param {Object} grid
+         * @param {String} row
+         */
+        function bannerSlideRowInit(grid, row) {
+            var checkbox = $(row).getElementsByClassName('checkbox')[0],
+                position = $(row).getElementsByClassName('input-text')[0];
+
+            if (checkbox && position) {
+                checkbox.positionElement = position;
+                position.checkboxElement = checkbox;
+                position.disabled = !checkbox.checked;
+                position.tabIndex = tabIndex++;
+                Event.observe(position, 'keyup', positionChange);
+            }
+        }
+
+        gridJsObject.rowClickCallback = bannerSlideRowClick;
+        gridJsObject.initRowCallback = bannerSlideRowInit;
+        gridJsObject.checkboxCheckCallback = registerBannerSlide;
+
+        if (gridJsObject.rows) {
+            gridJsObject.rows.each(function (row) {
+                bannerSlideRowInit(gridJsObject, row);
+            });
+        }};
+});

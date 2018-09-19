@@ -1,0 +1,38 @@
+<?php
+$check = $this->helper('Aht\BannerSlider\Helper\Check');
+if ($check->checkAllowedPage() != false):
+    $full_route = $check->checkAllowedPage();
+    ?>
+    <div id="banner_slide_after_ajax_loaded"></div>
+    <script>
+        require([
+            'jquery'
+        ], function ($) {
+            $(document).ready(function () {
+                $.ajax({
+                    url: 'http://fudu.magento.net/banner/slide/image',
+                    method: 'GET',
+                    dataType: 'html', // muốn render html thì cần phải có dòng này.
+                    data: {
+                        width: screen.width,
+                        height: screen.height,
+                        full_route: '<?php echo $full_route; ?>'
+                    },
+                    success: function (response) {
+                        response = $.parseJSON(response);
+                        $('#banner_slide_after_ajax_loaded').append(response.html);
+                    },
+                    error: function(xhr, textStatus, error){
+                        console.log(xhr.statusText);
+                        console.log(textStatus);
+                        console.log(error);
+                    }
+                });
+
+            });
+        });
+    </script>
+
+<?php endif; ?>
+
+

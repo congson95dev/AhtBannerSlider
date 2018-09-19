@@ -1,0 +1,68 @@
+<?php /** @var Aht\BannerSlider\Block\Frontend\Slide $block */ ?>
+<div>
+    <?php
+    foreach ($block->getBannerPage() as $rowsBannerPage):
+        $banner_id = $rowsBannerPage['banner_id'];
+    if (!empty($block->getBannerSlideById($banner_id))):
+        ?>
+        <div class="slick-custom">
+            <div class="banner-slider">
+                <?php
+                foreach ($block->getBannerSlideById($banner_id) as $rowsBannerSlide):
+                    ?>
+                    <?php
+                    $slide = $block->getSlideById($rowsBannerSlide['slide_id']);
+
+                    // resize img
+                    $image = $this->helper('Aht\BannerSlider\Helper\Image');
+
+                    $resolition_screen = $block->getResolutionScreen();
+                    $width = $resolition_screen[0];
+                    $height = $resolition_screen[1];
+                    ?>
+                    <!--                1366,768 = max width màn hình -->
+                    <div><img src="<?php echo $image->resize($slide->getImage(), $width, $height); ?>"
+                              style="width: 100%; height: auto;"></div>
+                <?php
+                endforeach;
+                ?>
+            </div>
+            <div class="slick-arrows-custom">
+                <i class="prev fa fa-arrow-circle-left"></i>
+                <i class="next fa fa-arrow-circle-right"></i>
+            </div>
+        </div>
+
+    <?php endif; ?>
+
+    <?php
+    endforeach;
+    ?>
+        <script>
+            require([
+                'jquery',
+                'slick'
+            ], function ($) {
+                $(document).ready(function () {
+                    $('.banner-slider').each(function () {
+                        $(this).slick({
+                            speed: 300,
+                            autoplay: true,
+                            arrows: true,
+                            prevArrow: $(this).parents('.slick-custom').find('.prev'),
+                            nextArrow: $(this).parents('.slick-custom').find('.next'),
+                            responsive: [
+                                {
+                                    fade: true,
+                                    breakpoint: 480,
+                                    settings: {
+                                        dots: true
+                                    }
+                                }
+                            ]
+                        });
+                    });
+                });
+            });
+        </script>
+</div>

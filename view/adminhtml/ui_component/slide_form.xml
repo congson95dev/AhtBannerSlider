@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">slide_form.slide_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">General Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+
+    <settings>
+        <buttons>
+            <button name="save_and_continue" class="Aht\BannerSlider\Block\Adminhtml\Slide\Edit\SaveAndContinueButton"/>
+            <button name="save" class="Aht\BannerSlider\Block\Adminhtml\Slide\Edit\SaveButton"/>
+            <button name="reset" class="Aht\BannerSlider\Block\Adminhtml\Slide\Edit\ResetButton"/>
+            <button name="delete" class="Aht\BannerSlider\Block\Adminhtml\Slide\Edit\DeleteButton"/>
+            <button name="back" class="Aht\BannerSlider\Block\Adminhtml\Slide\Edit\BackButton"/>
+        </buttons>
+        <namespace>slide_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>slide_form.slide_form_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="slide_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="banner/slide/save"/>
+        </settings>
+        <dataProvider class="Aht\BannerSlider\Model\Slide\DataProvider" name="slide_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <fieldset name="general">
+        <settings>
+            <label/>
+        </settings>
+        <!--<field name="id" formElement="input">-->
+            <!--<argument name="data" xsi:type="array">-->
+                <!--<item name="config" xsi:type="array">-->
+                    <!--<item name="source" xsi:type="string">slide</item>-->
+                    <!--<item name="disabled" xsi:type="boolean">true</item>-->
+                <!--</item>-->
+            <!--</argument>-->
+            <!--<settings>-->
+                <!--<dataType>text</dataType>-->
+                <!--<label translate="true">Slide ID</label>-->
+                <!--&lt;!&ndash;<visible>false</visible>&ndash;&gt;-->
+                <!--<dataScope>id</dataScope>-->
+            <!--</settings>-->
+        <!--</field>-->
+        <field name="name" sortOrder="20" formElement="input">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Slide Name</label>
+                <dataScope>name</dataScope>
+            </settings>
+        </field>
+
+        <field name="url" sortOrder="30" formElement="input">
+            <settings>
+                <validation>
+                    <rule name="validate-url" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Slide URL</label>
+                <dataScope>url</dataScope>
+            </settings>
+        </field>
+
+        <field name="image">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Slide Image</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="componentType" xsi:type="string">fileUploader</item>
+                    <item name="notice" xsi:type="string" translate="true">Allowed file types: ico, png, gif, jpg, jpeg, apng, svg. Not all browsers support all these formats!</item>
+                    <item name="maxFileSize" xsi:type="number">2097152</item>
+                    <item name="allowedExtensions" xsi:type="string">jpg jpeg gif png svg</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <!-- image-preview in web/template/image-preview.html -->
+                    <item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="string">banner/slide_image/upload</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <!--<field name="created_at" sortOrder="50" formElement="input">-->
+            <!--<argument name="data" xsi:type="array">-->
+                <!--<item name="config" xsi:type="array">-->
+                    <!--<item name="source" xsi:type="string">slide</item>-->
+                    <!--<item name="disabled" xsi:type="boolean">true</item>-->
+                <!--</item>-->
+            <!--</argument>-->
+            <!--<settings>-->
+                <!--<dataType>text</dataType>-->
+                <!--<label translate="true">Created Time</label>-->
+                <!--<dataScope>created_at</dataScope>-->
+            <!--</settings>-->
+        <!--</field>-->
+        <!--<field name="updated_at" sortOrder="60" formElement="input">-->
+            <!--<argument name="data" xsi:type="array">-->
+                <!--<item name="config" xsi:type="array">-->
+                    <!--<item name="source" xsi:type="string">slide</item>-->
+                    <!--<item name="disabled" xsi:type="boolean">true</item>-->
+                <!--</item>-->
+            <!--</argument>-->
+            <!--<settings>-->
+                <!--<dataType>text</dataType>-->
+                <!--<label translate="true">Last Update</label>-->
+                <!--<dataScope>updated_at</dataScope>-->
+            <!--</settings>-->
+        <!--</field>-->
+    </fieldset>
+</form>
